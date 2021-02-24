@@ -1,15 +1,20 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+  <Kanyeisms />
+  <!-- <Movies /> -->
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+//import HelloWorld from './components/HelloWorld.vue'
+import Kanyeisms from './components/Kanyeisms.vue'
+//import Movies from './components/Movies.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    //HelloWorld
+    Kanyeisms,
+    //Movies
   }
 }
 </script>
@@ -21,6 +26,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 4em 2em;
 }
 </style>
