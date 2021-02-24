@@ -28,10 +28,12 @@ export default {
     };
   },
   async created() {
+    let apiKey = process.env.VUE_APP_API_KEY;
+
     fetch("https://movie-database-imdb-alternative.p.rapidapi.com/?i=tt0047034&r=json", {
       "method": "GET",
       "headers": {
-        "x-rapidapi-key": "cf27a98d98msh0cbba17088c44a7p10e7eejsn02cb0fc9d8fc",
+        "x-rapidapi-key": apiKey,
         "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
       }
     })
