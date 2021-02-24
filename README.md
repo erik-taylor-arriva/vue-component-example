@@ -1,4 +1,5 @@
 # kanye-quotes
+Welcome to exploring Vue 2.0 and JavaScript Promises starring Fetch and Special Guest, Kanye West.
 
 ## Project setup
 ```
