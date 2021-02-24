@@ -13,7 +13,7 @@ export default {
       quote: ''
     };
   },
-  // On page load, GET a tweet
+  // On page load, GET a Kanye tweet
   async created() {
     // Simple GET request using fetch
     const response = await fetch("https://api.kanye.rest");
