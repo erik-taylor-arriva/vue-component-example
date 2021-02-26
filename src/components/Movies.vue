@@ -1,8 +1,18 @@
 <template>
   <div>
-    <h1>Godzilla Showcase</h1>
-    <button v-if="pageNumber > 1" v-on:click="nextPage(pageNumber-=1)">Previous Page</button>
-    <button v-on:click="nextPage(pageNumber+=1)">Next Page</button>
+    <h1>Movie Search Showcase</h1>
+    <p>Search a movie, TV show or video game title to get started.</p>
+    <input
+      v-model="movieTitle"
+      v-on:keyup="movieSearch(movieTitle)"
+      v-on:blur="movieSearch(movieTitle)"
+      placeholder="Enter a movie title" />
+
+    <!-- <button v-if="movieTitle" v-on:click="movieSearch(movieTitle)">Search</button> -->
+    <button v-if="pageNumber > 1" v-on:click="prevPage(pageNumber-=1, movieTitle)">Previous Page</button>
+    <button v-if="data.totalResults > 10" v-on:click="nextPage(pageNumber+=1, movieTitle)">Next Page</button>
+
+    <h3 v-if="data.totalResults">Total results for {{ movieTitle }}: {{ data.totalResults }}</h3>
     <div id="movies">
       <div class="movie" v-for="(movie, index) in data.Search" :key="index">
           <img v-if="movie.Poster !== 'N/A'" v-bind:src="movie.Poster" v-bind:alt="movie.Title">
@@ -19,51 +29,50 @@
 
 <script>
 export default {
-  name: 'get-request',
+  name: 'Get Movies',
   data() {
     return {
       data: {},
-      //movieName: '', TODO bind movie title to a search input
+      movieTitle: '',
+      totalResults: 0,
       pageNumber: 1
     };
   },
   async created() {
-    // You will need to go to https://rapidapi.com/rapidapi/api/movie-database-imdb-alternative
-    // and register for an API key to get this movie example to work correctly.
-    // Simply replace [process.env.VUE_APP_API_KEY] wtih your API key below, or register it in a local .env file
-    const apiKey = process.env.VUE_APP_API_KEY;
-    const apiHost = "movie-database-imdb-alternative.p.rapidapi.com";
 
-    // A list of Godzilla movies
-    const godzillasApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/?s=Godzilla&r=json";
-
-    fetch(godzillasApiUrl, {
-      "method": "GET",
-      "headers": {
-        "x-rapidapi-key": apiKey,
-        "x-rapidapi-host": apiHost
-      }
-    })
-    .then(async response => {
-      const data = await response.json();
-      console.log(data);
-      this.data = data;
-    })
-    .catch(err => {
-      console.error(err);
-    });
   },
   methods: {
-    // TODO: write movie title search
-    // async movieSearch(movieTitle) {
-
-    // },
-    async nextPage(pageNumber){
+    async movieSearch(movieTitle) {
+      // You will need to go to https://rapidapi.com/rapidapi/api/movie-database-imdb-alternative
+      // and register for an API key to get this movie example to work correctly.
+      // Simply replace [process.env.VUE_APP_API_KEY] wtih your API key below, or register it in a local .env file
       const apiKey = process.env.VUE_APP_API_KEY;
       const apiHost = "movie-database-imdb-alternative.p.rapidapi.com";
-      const godzillasApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/?s=Godzilla&r=json&page=" + pageNumber;
+      const apiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/?r=json&page=1&s=" + movieTitle;
 
-      fetch(godzillasApiUrl, {
+      fetch(apiUrl, {
+        "method": "GET",
+        "headers": {
+          "x-rapidapi-key": apiKey,
+          "x-rapidapi-host": apiHost
+        }
+      })
+      .then(async response => {
+        const data = await response.json();
+        console.log(data);
+        this.data = data;
+      })
+      .catch(error => {
+        this.errorMessage = error;
+        console.log("Ya'll done said no response", error)
+      });
+    },
+    async nextPage(pageNumber, movieTitle){
+      const apiKey = process.env.VUE_APP_API_KEY;
+      const apiHost = "movie-database-imdb-alternative.p.rapidapi.com";
+      const movieApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/?" + "s=" + movieTitle + "&r=json&page=" + pageNumber;
+
+      fetch(movieApiUrl, {
         "method": "GET",
         "headers": {
           "x-rapidapi-key": apiKey,
@@ -81,12 +90,12 @@ export default {
       });
     },
 
-    async prevPage(pageNumber){
+    async prevPage(pageNumber, movieTitle){
       const apiKey = process.env.VUE_APP_API_KEY;
       const apiHost = "movie-database-imdb-alternative.p.rapidapi.com";
-      const godzillasApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/?s=Godzilla&r=json&page=" + pageNumber;
+      const movieApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/?" + "s=" + movieTitle + "&r=json&page=" + pageNumber;
 
-      fetch(godzillasApiUrl, {
+      fetch(movieApiUrl, {
         "method": "GET",
         "headers": {
           "x-rapidapi-key": apiKey,
@@ -112,7 +121,7 @@ export default {
   #movies {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -122,7 +131,8 @@ export default {
   }
 
   .movieTitleYear {
-    margin-bottom: 1em;
+    margin: 1em;
+    max-width: 315px;
   }
 
   h2 {
@@ -135,7 +145,12 @@ export default {
     max-height: 425px;
   }
 
-  button {
+  input, button {
     margin: 1em;
+  }
+
+  input {
+    display: block;
+    margin: 1em auto;
   }
 </style>

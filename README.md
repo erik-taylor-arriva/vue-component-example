@@ -1,5 +1,5 @@
-# kanye-quotes
-Welcome to exploring Vue 2.0 and JavaScript Promises starring Fetch and Special Guest, Kanye West.
+# Movie Showcase
+Welcome to exploring Vue Components with JavaScript Promises and the [RapidAPI IMDB alternate](https://rapidapi.com/rapidapi/api/movie-database-imdb-alternative)
 
 ## Project setup
 ```
