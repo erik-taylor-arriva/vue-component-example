@@ -1,22 +1,24 @@
 <template>
   <div>
-    <h1>Movie Search Showcase</h1>
+    <h1>Movies, TV &amp; More</h1>
     <p>Search a movie, TV show or video game title to get started.</p>
     <input
       v-model="movieTitle"
       v-on:keyup="movieSearch(movieTitle)"
       v-on:blur="movieSearch(movieTitle)"
-      placeholder="Enter a movie title" />
+      placeholder="Enter a Title" />
 
-    <!-- <button v-if="movieTitle" v-on:click="movieSearch(movieTitle)">Search</button> -->
     <button v-if="pageNumber > 1" v-on:click="prevPage(pageNumber-=1, movieTitle)">Previous Page</button>
     <button v-if="data.totalResults > 10" v-on:click="nextPage(pageNumber+=1, movieTitle)">Next Page</button>
 
     <h3 v-if="data.totalResults">Total results for {{ movieTitle }}: {{ data.totalResults }}</h3>
+
     <div id="movies">
       <div class="movie" v-for="(movie, index) in data.Search" :key="index">
+        <a v-bind:href="'http://www.imdb.com/title/'+  movie.imdbID" target="_blank">
           <img v-if="movie.Poster !== 'N/A'" v-bind:src="movie.Poster" v-bind:alt="movie.Title">
           <img v-if="movie.Poster === 'N/A'" src="https://via.placeholder.com/300x425?text=No+Image+Found" v-bind:alt="movie.Title">
+        </a>
           <div class="movieTitleYear">
             <h2>{{ movie.Title }}</h2>
             <span>{{ movie.Type }}</span>
@@ -24,6 +26,10 @@
           </div>
       </div>
     </div>
+
+    <button v-if="pageNumber > 1" v-on:click="prevPage(pageNumber-=1, movieTitle)">Previous Page</button>
+    <button v-if="data.totalResults > 10" v-on:click="nextPage(pageNumber+=1, movieTitle)">Next Page</button>
+
   </div>
 </template>
 
@@ -34,6 +40,7 @@ export default {
     return {
       data: {},
       movieTitle: '',
+      imdbID: '',
       totalResults: 0,
       pageNumber: 1
     };
@@ -116,41 +123,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  #movies {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  p, ul {
-    text-align: center;
-  }
-
-  .movieTitleYear {
-    margin: 1em;
-    max-width: 315px;
-  }
-
-  h2 {
-    font-size: 1em;
-    margin: 0;
-  }
-
-  img {
-    margin: 1em 1em 0em;
-    max-height: 425px;
-  }
-
-  input, button {
-    margin: 1em;
-  }
-
-  input {
-    display: block;
-    margin: 1em auto;
-  }
-</style>
