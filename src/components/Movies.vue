@@ -45,9 +45,6 @@ export default {
       pageNumber: 1
     };
   },
-  async created() {
-
-  },
   methods: {
     async movieSearch(movieTitle) {
       // You will need to go to https://rapidapi.com/rapidapi/api/movie-database-imdb-alternative
