@@ -1,8 +1,10 @@
 <template>
+  <div>
     <img id="yeezy" alt="kanye mad" src="https://i.pinimg.com/originals/b6/43/13/b64313085b888070afafe4c55c22106c.jpg">
     <h1>What is Kanye West thinking about?</h1>
     <h3>{{quote}}</h3>
     <button id="moreYeezy" v-on:click="moreYeezy">More Kanyeisms</button>
+  </div>
 </template>
 
 <script>
