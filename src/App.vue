@@ -1,19 +1,16 @@
 <template>
-  <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   <!-- <Kanyeisms /> -->
   <Movies />
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
 //import Kanyeisms from './components/Kanyeisms.vue'
 import Movies from './components/Movies.vue'
 
 export default {
   name: 'App',
   components: {
-    //HelloWorld,
-    //Kanyeisms
+    //Kanyeisms,
     Movies
   }
 }
