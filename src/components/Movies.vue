@@ -4,18 +4,18 @@
     <p>Search a movie, TV show or video game title to get started.</p>
     <input
       v-model="movieTitle"
-      v-on:keyup="movieSearch(movieTitle)"
-      v-on:blur="movieSearch(movieTitle)"
+      @keyup="movieSearch(movieTitle)"
+      @blur="movieSearch(movieTitle)"
       placeholder="Enter a Title" />
 
-    <button v-if="pageNumber > 1" v-on:click="prevPage(pageNumber-=1, movieTitle)">Previous Page</button>
-    <button v-if="data.totalResults > 10" v-on:click="nextPage(pageNumber+=1, movieTitle)">Next Page</button>
+    <button v-if="pageNumber > 1" @click="prevPage(pageNumber-=1, movieTitle)">Previous Page</button>
+    <button v-if="data.totalResults > 10" @click="nextPage(pageNumber+=1, movieTitle)">Next Page</button>
 
     <h3 v-if="data.totalResults">Total results for {{ movieTitle }}: {{ data.totalResults }}</h3>
 
     <div id="movies">
       <div class="movie" v-for="(movie, index) in data.Search" :key="index">
-        <a v-bind:href="'http://www.imdb.com/title/'+  movie.imdbID" target="_blank">
+        <a @href="'http://www.imdb.com/title/'+  movie.imdbID" target="_blank">
           <img v-if="movie.Poster !== 'N/A'" v-bind:src="movie.Poster" v-bind:alt="movie.Title">
           <img v-if="movie.Poster === 'N/A'" src="https://via.placeholder.com/300x425?text=No+Image+Found" v-bind:alt="movie.Title">
         </a>
@@ -27,13 +27,16 @@
       </div>
     </div>
 
-    <button v-if="pageNumber > 1" v-on:click="prevPage(pageNumber-=1, movieTitle)">Previous Page</button>
-    <button v-if="data.totalResults > 10" v-on:click="nextPage(pageNumber+=1, movieTitle)">Next Page</button>
+    <button v-if="pageNumber > 1" @click="prevPage(pageNumber-=1, movieTitle)">Previous Page</button>
+    <button v-if="data.totalResults > 10" @click="nextPage(pageNumber+=1, movieTitle)">Next Page</button>
 
   </div>
 </template>
 
 <script>
+const apiKey = process.env.VUE_APP_API_KEY;
+const apiHost = "movie-database-imdb-alternative.p.rapidapi.com";
+
 export default {
   name: 'Get Movies',
   data() {
@@ -50,8 +53,6 @@ export default {
       // You will need to go to https://rapidapi.com/rapidapi/api/movie-database-imdb-alternative
       // and register for an API key to get this movie example to work correctly.
       // Simply replace [process.env.VUE_APP_API_KEY] wtih your API key below, or register it in a local .env file
-      const apiKey = process.env.VUE_APP_API_KEY;
-      const apiHost = "movie-database-imdb-alternative.p.rapidapi.com";
       const apiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/?r=json&page=1&s=" + movieTitle;
 
       fetch(apiUrl, {
@@ -72,8 +73,6 @@ export default {
       });
     },
     async nextPage(pageNumber, movieTitle){
-      const apiKey = process.env.VUE_APP_API_KEY;
-      const apiHost = "movie-database-imdb-alternative.p.rapidapi.com";
       const movieApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/?" + "s=" + movieTitle + "&r=json&page=" + pageNumber;
 
       fetch(movieApiUrl, {
@@ -95,8 +94,6 @@ export default {
     },
 
     async prevPage(pageNumber, movieTitle){
-      const apiKey = process.env.VUE_APP_API_KEY;
-      const apiHost = "movie-database-imdb-alternative.p.rapidapi.com";
       const movieApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/?" + "s=" + movieTitle + "&r=json&page=" + pageNumber;
 
       fetch(movieApiUrl, {
