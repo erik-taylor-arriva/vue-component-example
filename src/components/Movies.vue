@@ -53,7 +53,7 @@ export default {
       // You will need to go to https://rapidapi.com/rapidapi/api/movie-database-imdb-alternative
       // and register for an API key to get this movie example to work correctly.
       // Simply replace [process.env.VUE_APP_API_KEY] wtih your API key below, or register it in a local .env file
-      const apiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/?r=json&page=1&s=" + movieTitle;
+      const apiUrl = `https://movie-database-imdb-alternative.p.rapidapi.com/?r=json&page=1&s=${movieTitle}`;
 
       fetch(apiUrl, {
         "method": "GET",
@@ -64,7 +64,6 @@ export default {
       })
       .then(async response => {
         const data = await response.json();
-        console.log(data);
         this.data = data;
       })
       .catch(error => {
@@ -73,7 +72,7 @@ export default {
       });
     },
     async nextPage(pageNumber, movieTitle){
-      const movieApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/?" + "s=" + movieTitle + "&r=json&page=" + pageNumber;
+      const movieApiUrl = `https://movie-database-imdb-alternative.p.rapidapi.com/?s=${movieTitle}&r=json&page=${pageNumber}`;
 
       fetch(movieApiUrl, {
         "method": "GET",
@@ -84,7 +83,6 @@ export default {
       })
       .then(async response => {
         const data = await response.json();
-        console.log(data);
         this.data = data;
       })
       .catch(error => {
@@ -94,7 +92,7 @@ export default {
     },
 
     async prevPage(pageNumber, movieTitle){
-      const movieApiUrl = "https://movie-database-imdb-alternative.p.rapidapi.com/?" + "s=" + movieTitle + "&r=json&page=" + pageNumber;
+      const movieApiUrl = `https://movie-database-imdb-alternative.p.rapidapi.com/?s=${movieTitle}&r=json&page=${pageNumber}`;
 
       fetch(movieApiUrl, {
         "method": "GET",
@@ -105,7 +103,6 @@ export default {
       })
       .then(async response => {
         const data = await response.json();
-        console.log(data);
         this.data = data;
       })
       .catch(error => {
