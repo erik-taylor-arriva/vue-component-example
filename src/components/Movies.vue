@@ -15,7 +15,7 @@
 
     <div id="movies">
       <div class="movie" v-for="(movie, index) in data.Search" :key="index">
-        <a @href="'http://www.imdb.com/title/'+  movie.imdbID" target="_blank">
+        <a v-bind:href="'https://www.imdb.com/title/' +  movie.imdbID" target="_blank">
           <img v-if="movie.Poster !== 'N/A'" v-bind:src="movie.Poster" v-bind:alt="movie.Title">
           <img v-if="movie.Poster === 'N/A'" src="https://via.placeholder.com/300x425?text=No+Image+Found" v-bind:alt="movie.Title">
         </a>
